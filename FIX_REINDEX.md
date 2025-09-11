@@ -68,10 +68,11 @@
 
     - bulk()中に例外エラーが発生した場合、エラーが発生する前までに成功したデータの登録は完了している。<br>
     しかしbulk()を完走しなければ成功数/失敗数の取得は出来ない。<br>
-    streaming_bulk()のラップ関数、および例外エラーを作成し、それぞれのエラーが発生した場合にエラーが発生するまでの成功数/失敗数を取得するようにする。
+    bulk()の代わりに以下で作成するstreaming_bulk()のラップ関数を呼び出すようにする。<br>
+    例外エラークラスを作成し、それぞれのエラーが発生した場合にエラーが発生するまでの成功数/失敗数を取得するようにする。
 
-            # 新規作成
-            def wrap_streaming_bulk(self, client, actions, stats_only=False, *args, **kwargs):
+            # 新規作成(関数名は仮称)
+            def reindex_bulk(self, client, actions, stats_only=False, *args, **kwargs):
                 success, failed = 0, 0
                 errors = []
                 ignore_status = kwargs.pop('ignore_status', None)
